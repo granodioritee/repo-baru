@@ -73,12 +73,17 @@ NOTES_TOOLS_2 = [
     "ad when someone enters a set area. Great for local businesses.",
 ]
 
+# (indent level, bold label, text)
 SEO_BULLETS = [
-    "SEO is the process of increasing the likelihood that a website appears in organic (unpaid) "
-    "search engine results",
-    "Key elements: keywords, quality content, fast and mobile-friendly website, backlinks",
-    "Example: A shoe store optimizes its website so customers can find it when searching for "
-    "running shoes on Google",
+    (0, "", "SEO is the process of increasing the likelihood that a website appears in organic "
+     "(unpaid) search engine results, by improving the website's content and structure"),
+    (0, "Key elements:", ""),
+    (1, "Keywords: ", "words people type into search engines"),
+    (1, "Quality content: ", "useful and relevant information for readers"),
+    (1, "Fast, mobile-friendly website: ", "loads quickly and is easy to use on phones"),
+    (1, "Backlinks: ", "links from other trusted websites"),
+    (0, "Example: ", "A shoe store optimizes its website so customers can find it when "
+     "searching for running shoes on Google"),
 ]
 
 NOTES_SEO = (
@@ -217,11 +222,14 @@ def seo_slide(prs):
     tf = box.text_frame
     tf.word_wrap = True
     tf.margin_left = tf.margin_right = tf.margin_top = tf.margin_bottom = 0
-    for i, text in enumerate(SEO_BULLETS):
+    for i, (level, label, text) in enumerate(SEO_BULLETS):
         p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
-        p.space_after = Pt(30)
+        size = 20 if level == 0 else 17
+        nxt = SEO_BULLETS[i + 1][0] if i + 1 < len(SEO_BULLETS) else 0
+        p.space_after = Pt(6 if nxt == 1 else 18)
+        indent = 0.3 + 0.35 * level
         pPr = p._p.get_or_add_pPr()
-        pPr.set("marL", str(Inches(0.3)))
+        pPr.set("marL", str(Inches(indent)))
         pPr.set("indent", str(-Inches(0.3)))
         bu_clr = pPr.makeelement("{http://schemas.openxmlformats.org/drawingml/2006/main}buClr", {})
         srgb = bu_clr.makeelement("{http://schemas.openxmlformats.org/drawingml/2006/main}srgbClr",
@@ -229,20 +237,14 @@ def seo_slide(prs):
         bu_clr.append(srgb)
         pPr.append(bu_clr)
         bu = pPr.makeelement("{http://schemas.openxmlformats.org/drawingml/2006/main}buChar",
-                             {"char": "•"})
+                             {"char": "\u2022" if level == 0 else "\u25E6"})
         pPr.append(bu)
-        if text.startswith("Example: "):
-            style_run(p.add_run(), 22, ACCENT, bold=True)
-            p.runs[-1].text = "Example: "
-            style_run(p.add_run(), 22, BODY, italic=True)
-            p.runs[-1].text = text[len("Example: "):]
-        elif text.startswith("Key elements: "):
-            style_run(p.add_run(), 22, TITLE, bold=True)
-            p.runs[-1].text = "Key elements: "
-            style_run(p.add_run(), 22, BODY)
-            p.runs[-1].text = text[len("Key elements: "):]
-        else:
-            style_run(p.add_run(), 22, BODY)
+        is_example = label.startswith("Example")
+        if label:
+            style_run(p.add_run(), size, ACCENT if is_example else TITLE, bold=True)
+            p.runs[-1].text = label
+        if text:
+            style_run(p.add_run(), size, BODY, italic=is_example)
             p.runs[-1].text = text
 
     # Right: a simple search results mock-up (paid vs organic)
