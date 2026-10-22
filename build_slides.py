@@ -74,9 +74,8 @@ NOTES_TOOLS_2 = [
 ]
 
 SEO_BULLETS = [
-    "SEO is the process of increasing the likelihood that a website appears in search engine "
-    "results",
-    "Helps a website rank higher in organic (unpaid) results",
+    "SEO is the process of increasing the likelihood that a website appears in organic (unpaid) "
+    "search engine results",
     "Key elements: keywords, quality content, fast and mobile-friendly website, backlinks",
     "Example: A shoe store optimizes its website so customers can find it when searching for "
     "running shoes on Google",
@@ -220,7 +219,7 @@ def seo_slide(prs):
     tf.margin_left = tf.margin_right = tf.margin_top = tf.margin_bottom = 0
     for i, text in enumerate(SEO_BULLETS):
         p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
-        p.space_after = Pt(18)
+        p.space_after = Pt(30)
         pPr = p._p.get_or_add_pPr()
         pPr.set("marL", str(Inches(0.3)))
         pPr.set("indent", str(-Inches(0.3)))
@@ -233,17 +232,17 @@ def seo_slide(prs):
                              {"char": "•"})
         pPr.append(bu)
         if text.startswith("Example: "):
-            style_run(p.add_run(), 20, ACCENT, bold=True)
+            style_run(p.add_run(), 22, ACCENT, bold=True)
             p.runs[-1].text = "Example: "
-            style_run(p.add_run(), 20, BODY, italic=True)
+            style_run(p.add_run(), 22, BODY, italic=True)
             p.runs[-1].text = text[len("Example: "):]
         elif text.startswith("Key elements: "):
-            style_run(p.add_run(), 20, TITLE, bold=True)
+            style_run(p.add_run(), 22, TITLE, bold=True)
             p.runs[-1].text = "Key elements: "
-            style_run(p.add_run(), 20, BODY)
+            style_run(p.add_run(), 22, BODY)
             p.runs[-1].text = text[len("Key elements: "):]
         else:
-            style_run(p.add_run(), 20, BODY)
+            style_run(p.add_run(), 22, BODY)
             p.runs[-1].text = text
 
     # Right: a simple search results mock-up (paid vs organic)
