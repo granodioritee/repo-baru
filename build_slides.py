@@ -1,4 +1,4 @@
-"""Builds digital-marketing-tools.pptx (Digital Marketing Tools and SEO slides).
+"""Builds digital-marketing-tools.pptx (Types of Mobile Marketing and SEO slides).
 
 Run: python3 build_slides.py
 Icons come from assets/icons (regenerate with scripts/make_icons.js).
@@ -33,27 +33,27 @@ GRID_BOTTOM = 7.0
 
 TOOLS = [
     ("display", "Display Ads", "Visual ads on websites or apps.",
-     "A \"30% Off\" banner on a news website."),
+     "A banner showing a discount."),
     ("search", "Search Ads", "Ads appearing in search results.",
-     "A sponsored ramen restaurant at the top of Google."),
+     "A restaurant ad on Google."),
     ("video", "Video Advertising", "Promotions through videos.",
-     "A short YouTube ad before a video."),
+     "A YouTube advertisement."),
     ("sms", "Text Messages", "Promotions sent through SMS.",
-     "A discount code sent by SMS."),
+     "A discount code sent by text."),
     ("inapp", "In-app Advertising", "Ads inside mobile apps.",
-     "Watching an ad in a game for an extra life."),
-    ("qr", "QR Codes, Digital Watermarks and 2D Barcodes",
-     "Technologies that connect users to digital information.",
+     "An ad appearing in a mobile game."),
+    ("qr", "QR Codes, Digital Watermarks, and 2D Barcodes",
+     "Technologies connecting users to digital information.",
      "Scanning a QR code to register for an event."),
     ("geo", "Geo-targeting", "Targeting customers based on location.",
-     "A café sending offers to people nearby."),
+     "A café promotes offers to people nearby."),
 ]
 
 NOTES_TOOLS_1 = [
     "Display ads: images, banners or short animations placed through ad networks like the "
     "Google Display Network. Mainly for brand awareness, and can retarget people who already "
     "visited the brand's website.",
-    "Search ads: triggered by the keywords people type and labelled \"Sponsored\". Use "
+    "Search ads: triggered by the keywords people type and labeled \"Sponsored\". Use "
     "pay-per-click (PPC), so the business only pays when someone clicks. They reach people who "
     "are already looking for the product.",
     "Video advertising: runs on YouTube, TikTok, Instagram Reels and streaming. Formats include "
@@ -78,7 +78,8 @@ SEO_BULLETS = [
     "results",
     "Focuses on organic (unpaid) results, unlike search ads",
     "Key elements: keywords, quality content, fast and mobile-friendly website, backlinks",
-    "Example: A shoe store appearing on Google's first page for \"running shoes\"",
+    "Example: A shoe store optimizes its website so customers can find it when searching for "
+    "running shoes on Google",
 ]
 
 NOTES_SEO = (
@@ -171,7 +172,7 @@ def blank_slide(prs):
 def tools_grid_slide(prs, tools, notes):
     """Tools 1 to 4 as a 2 x 2 grid of cards."""
     slide = blank_slide(prs)
-    add_title(slide, "Digital Marketing Tools (1/2)")
+    add_title(slide, "Types of Mobile Marketing (1/2)")
     card_w = (SLIDE_W - 2 * MARGIN - GAP) / 2
     card_h = (GRID_BOTTOM - GRID_TOP - GAP) / 2
     for i, (icon, name, definition, example) in enumerate(tools):
@@ -190,7 +191,7 @@ def tools_grid_slide(prs, tools, notes):
 def tools_column_slide(prs, tools, notes):
     """Tools 5 to 7 as three tall column cards."""
     slide = blank_slide(prs)
-    add_title(slide, "Digital Marketing Tools (2/2)")
+    add_title(slide, "Types of Mobile Marketing (2/2)")
     card_w = (SLIDE_W - 2 * MARGIN - 2 * GAP) / 3
     card_h = GRID_BOTTOM - GRID_TOP
     for i, (icon, name, definition, example) in enumerate(tools):
@@ -209,7 +210,7 @@ def tools_column_slide(prs, tools, notes):
 
 def seo_slide(prs):
     slide = blank_slide(prs)
-    add_title(slide, "Search Engine Optimisation (SEO)")
+    add_title(slide, "Search Engine Optimization (SEO)")
 
     # Left: bullets
     box = slide.shapes.add_textbox(Inches(MARGIN), Inches(GRID_TOP + 0.1), Inches(6.1), Inches(5.3))
@@ -258,8 +259,8 @@ def seo_slide(prs):
 
     results = [
         ("Sponsored", "Sprint Sports: 20% off running shoes", "Search ad (paid)", False),
-        ("stridestore.com.au", "Best Running Shoes for Beginners", "Organic result (SEO)", True),
-        ("stridestore.com.au", "Running Shoes for Men and Women", "Organic result (SEO)", True),
+        ("stridestore.com", "Best Running Shoes for Beginners", "Organic result (SEO)", True),
+        ("stridestore.com", "Running Shoes for Men and Women", "Organic result (SEO)", True),
     ]
     ry = py + 1.25
     rh = 1.2
