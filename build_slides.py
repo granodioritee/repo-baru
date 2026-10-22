@@ -76,7 +76,7 @@ NOTES_TOOLS_2 = [
 SEO_BULLETS = [
     "SEO is the process of increasing the likelihood that a website appears in search engine "
     "results",
-    "Focuses on organic (unpaid) results, unlike search ads",
+    "Helps a website rank higher in organic (unpaid) results",
     "Key elements: keywords, quality content, fast and mobile-friendly website, backlinks",
     "Example: A shoe store optimizes its website so customers can find it when searching for "
     "running shoes on Google",
@@ -85,9 +85,9 @@ SEO_BULLETS = [
 NOTES_SEO = (
     "SEO improves a website so it ranks higher in organic search results. Key elements are "
     "using relevant keywords in titles, headings and content, publishing useful content, making "
-    "the site fast and mobile-friendly, and getting backlinks from trusted websites. Compared "
-    "with search ads, SEO is free and long-term but takes time, while search ads are paid and "
-    "give instant results. For example, a shoe store could write a blog post like \"Best "
+    "the site fast and mobile-friendly, and getting backlinks from trusted websites. SEO "
+    "does not cost money for ads and its results last a long time, but it takes time to work. "
+    "For example, a shoe store could write a blog post like \"Best "
     "Running Shoes for Beginners\" and use \"running shoes\" in its page titles so it shows up "
     "when people search for running shoes."
 )
@@ -257,27 +257,29 @@ def seo_slide(prs):
              anchor=MSO_ANCHOR.MIDDLE, name="Search query")
     add_icon(slide, "seo", ix + iw - 0.55, py + 0.42, 0.46)
 
+    # The shoe store's page ranks first thanks to SEO; the other results are plain
     results = [
-        ("Sponsored", "Sprint Sports: 20% off running shoes", "Search ad (paid)", False),
-        ("stridestore.com", "Best Running Shoes for Beginners", "Organic result (SEO)", True),
-        ("stridestore.com", "Running Shoes for Men and Women", "Organic result (SEO)", True),
+        ("stridestore.com", "Best Running Shoes for Beginners", True),
+        ("shoereviews.com", "Top 10 Running Shoes This Year", False),
+        ("footwearhub.com", "Running Shoes Buying Guide", False),
     ]
     ry = py + 1.25
     rh = 1.2
-    for label, headline, tag, organic in results:
+    for label, headline, highlight in results:
         add_box(slide, MSO_SHAPE.ROUNDED_RECTANGLE, ix, ry, iw, rh, WHITE,
-                line=ACCENT if organic else LINE, name=f"{tag} result")
+                line=ACCENT if highlight else LINE, name=f"{label} result")
         add_text(slide, ix + 0.25, ry + 0.15, iw - 2.6, 0.3,
-                 [(label, 12, MUTED, not organic, False)], name="Result source")
-        chip_w = 2.1
-        chip = add_box(slide, MSO_SHAPE.ROUNDED_RECTANGLE, ix + iw - chip_w - 0.2, ry + 0.15, chip_w,
-                       0.32, ACCENT if organic else LINE, name=f"{tag} chip")
-        chip.adjustments[0] = 0.5
-        add_text(slide, ix + iw - chip_w - 0.2, ry + 0.15, chip_w, 0.32,
-                 [(tag, 12, WHITE if organic else BODY, True, False)],
-                 anchor=MSO_ANCHOR.MIDDLE, align=PP_ALIGN.CENTER, name=f"{tag} label")
+                 [(label, 12, MUTED, False, False)], name="Result source")
+        if highlight:
+            chip_w = 2.1
+            chip = add_box(slide, MSO_SHAPE.ROUNDED_RECTANGLE, ix + iw - chip_w - 0.2, ry + 0.15,
+                           chip_w, 0.32, ACCENT, name="Top result chip")
+            chip.adjustments[0] = 0.5
+            add_text(slide, ix + iw - chip_w - 0.2, ry + 0.15, chip_w, 0.32,
+                     [("#1 thanks to SEO", 12, WHITE, True, False)],
+                     anchor=MSO_ANCHOR.MIDDLE, align=PP_ALIGN.CENTER, name="Top result label")
         add_text(slide, ix + 0.25, ry + 0.52, iw - 0.5, 0.35,
-                 [(headline, 16, ACCENT if organic else TITLE, True, False)], name="Result headline")
+                 [(headline, 16, ACCENT if highlight else TITLE, True, False)], name="Result headline")
         add_box(slide, MSO_SHAPE.ROUNDED_RECTANGLE, ix + 0.25, ry + 0.93, iw * 0.65, 0.1, LINE,
                 name="Result snippet").adjustments[0] = 0.5
         ry += rh + 0.2
